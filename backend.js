@@ -54,6 +54,23 @@ app.post('/schedule-notification', async (req, res) => {
   res.status(200).json({ message: 'Notification scheduled' });
 });
 
+app.post('/remove-notification', (req, res) => {
+  const { scheduleTime } = req.body;
+
+  const notificationIds = Object.keys(scheduledNotifications).filter(id => id.includes(scheduleTime));
+
+  if (notificationIds.length === 0) {
+    return res.status(404).json({ message: 'No notifications found for the given date' });
+  }
+
+  notificationIds.forEach(id => {
+    scheduledNotifications[id].stop();
+    delete scheduledNotifications[id];
+  });
+
+  res.status(200).json({ message: 'Notifications removed' });
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
