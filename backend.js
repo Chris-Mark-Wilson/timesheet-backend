@@ -14,6 +14,7 @@ const scheduledNotifications = {};
 
 app.post('/schedule-notification', async (req, res) => {
   const { token, title, body, data, scheduleTime } = req.body;
+  console.log('received')
 
   const notificationId = `${token}-${scheduleTime}`;
   if (scheduledNotifications[notificationId]) {
