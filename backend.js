@@ -1,12 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const fetch = require('node-fetch');
+const axios = require('axios'); // Use axios instead of node-fetch
 const cron = require('node-cron');
-const cors = require('cors')
+const cors = require('cors');
 
 const app = express();
 app.use(bodyParser.json());
-app.use(cors())
+app.use(cors());
 
 const EXPO_PUSH_ENDPOINT = 'https://exp.host/--/api/v2/push/send';
 
@@ -33,17 +33,14 @@ app.post('/schedule-notification', async (req, res) => {
     };
 
     try {
-      const response = await fetch(EXPO_PUSH_ENDPOINT, {
-        method: 'POST',
+      const response = await axios.post(EXPO_PUSH_ENDPOINT, message, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(message),
       });
 
-      const result = await response.json();
-      console.log('Notification sent:', result);
+      console.log('Notification sent:', response.data);
     } catch (error) {
       console.error('Error sending notification:', error);
     }
