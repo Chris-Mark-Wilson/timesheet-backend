@@ -2,9 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
 const cron = require('node-cron');
+const cors = require('cors')
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cors())
 
 const EXPO_PUSH_ENDPOINT = 'https://exp.host/--/api/v2/push/send';
 
