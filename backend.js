@@ -50,7 +50,7 @@ app.post('/schedule-notification', async (req, res) => {
   });
 
   scheduledNotifications[notificationId] = task;
-
+console.log('notification scheduled on backend')
   res.status(200).json({ message: 'Notification scheduled' });
 });
 
