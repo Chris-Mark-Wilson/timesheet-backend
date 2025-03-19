@@ -68,7 +68,7 @@ app.post('/remove-notification', (req, res) => {
     scheduledNotifications[id].stop();
     delete scheduledNotifications[id];
   });
-
+console.log('notification removed from backend')
   res.status(200).json({ message: 'Notifications removed' });
 });
 
