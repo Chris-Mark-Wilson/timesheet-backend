@@ -52,7 +52,7 @@ app.post('/schedule-notification', async (req, res) => {
 
   scheduledNotifications[notificationId] = task;
 console.log('notification scheduled on backend')
-  res.status(200).json({ message: 'Notification scheduled' });
+  res.status(200).json({ message: 'Notification scheduled on backend' });
 });
 
 app.post('/remove-notification', (req, res) => {
@@ -69,10 +69,27 @@ app.post('/remove-notification', (req, res) => {
     delete scheduledNotifications[id];
   });
 console.log('notification removed from backend')
-  res.status(200).json({ message: 'Notifications removed' });
+  res.status(200).json({ message: 'Notification removed from backend' });
+});
+
+app.post('/remove-all-notifications', (req, res) => {
+  const notificationIds = Object.keys(scheduledNotifications);
+
+  if (notificationIds.length === 0) {
+    return res.status(404).json({ message: 'No notifications found' });
+  }
+
+  notificationIds.forEach(id => {
+    scheduledNotifications[id].stop();
+    delete scheduledNotifications[id];
+  });
+
+  console.log('All notifications removed from backend');
+  res.status(200).json({ message: 'All notifications removed from backend' });
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
